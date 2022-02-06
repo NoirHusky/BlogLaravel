@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
@@ -28,11 +29,13 @@ class ArticleStoreRequest extends FormRequest
             'title'     => 'required|unique:articles|max:45',
             'content'   => 'required',
             'image'     => 'file',
+            'tags'      => new Tag,
         ];
     }
 
     public function prepareForValidation() {
         return $this->merge([
+            'tags' => explode(',', $this->tags),
             'slug' => Str::slug($this->title),
         ]);
     }

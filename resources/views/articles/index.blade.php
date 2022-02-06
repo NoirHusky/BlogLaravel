@@ -34,6 +34,11 @@
                         <div class="card-body">
                             {{ $article->content }}
                         </div>
+                        <div class="card-footer">
+                            @foreach($article->tags as $tag)
+                                <span class="badge rounded-pill bg-primary">{{ $tag->title }}</span>
+                            @endforeach
+                        </div>
                     </div>
                 @empty
                     No items found...

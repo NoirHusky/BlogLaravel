@@ -26,15 +26,33 @@
 
                             <label for="image">Image (optional):</label>
                             <input class="form-control" name="image" type="file">
-                            
+ 
+                            <label for="tags">Tags (optional):</label>
+                            <input class="form-control" name="tags" id="tags" type="text">
+                                                       
                             <label for="content">Content: </label>
                             <textarea class="form-control" name="content" type="text" placeholder="Body">{{ old('content') }}</textarea>
                             <button class="btn btn-success mt-2" type="submit">Create</button>
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+    <script>
+        // TODO(omar): put this crap in a stash and slot it in the app layout, god dammit
+          // Pass single element
+            
+          var textRemove = new Choices(
+          document.getElementById('tags'),
+          {
+            allowHTML: true,
+            delimiter: ',',
+            editItems: true,
+            maxItemCount: 5,
+            removeItemButton: true,
+          }
+        );
+    </script>
+
 @endsection

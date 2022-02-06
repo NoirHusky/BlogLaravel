@@ -6,6 +6,7 @@ use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,11 +41,27 @@ class ArticleController extends Controller
      */
     public function store(ArticleStoreRequest $request)
     {
-        $path = $request->image->store('images', 'public');
+        // TODO: we are getting the tags as array. Now we need to store in the
+        // database
+        $path = '/storage/images/noimage.jpeg';
+        if ( $request->has('image') ) {
+            $path = $request->image->store('images', 'public');
+        }
 
-        Article::create($request->all() + [
+        $article = Article::create($request->all() + [
             'image_path' => $path
         ]);
+ 
+        // loop through the tags
+        foreach ($request->tags as $tag) {
+            // if the tag is not already in the db, save it.
+            $tagModel = Tag::where('title', $tag)->first();
+            if ( $tagModel === null ) {
+                $tagModel = Tag::create(['title' => $tag]);
+            }
+            // and save the eloquest relationship of article to tag
+            $article->tags()->save($tagModel);
+        }
 
         return redirect()->route('articles.index')->with(
             'message',

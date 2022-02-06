@@ -16,7 +16,7 @@ class ArticleFactory extends Factory
     {
         $title = $this->faker->unique()->text(15); 
         $slug  = Str::slug($title);
-        $image_path = $this->faker->image(public_path() . '/images', 100, 100, null, false);
+        $image_path = $this->faker->image(public_path() . '/storage/images', 100, 100, null, false);
         return [
             'title'     => $title,
             'slug'      => $slug,
