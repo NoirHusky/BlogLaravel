@@ -1,0 +1,4 @@
+(A) add category model, controller, and views +bloglaravel
+x 2022-02-07 service container in update +bloglaravel
+(B) add roles to the website +bloglaravel
+(C) add admin panel, using quickadmin in the process +bloglaravel

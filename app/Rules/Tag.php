@@ -16,6 +16,11 @@ class Tag implements Rule
      */
     public function passes($attribute, $value)
     {
+        $val_len = count($value);
+
+        if ( $val_len !== count(array_unique($value)) ) {
+            return false;
+        }
         if ( ! empty($value) ) {
             $tags_count = 0;
             foreach ($value as $tag) {
@@ -23,7 +28,7 @@ class Tag implements Rule
                     $tags_count += 1;
                 }
             }
-            if ( count($value) === $tags_count ) return true;
+            if ( $val_len === $tags_count ) return true;
         }
         return false;
     }
@@ -35,6 +40,6 @@ class Tag implements Rule
      */
     public function message()
     {
-        return 'The :attribute you have provided are invalid.';
+        return 'The :attribute you have provided is invalid.';
     }
 }

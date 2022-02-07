@@ -7,11 +7,13 @@ use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use App\Models\Tag;
+use App\Services\ArticleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +21,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::get();   
+        $articles = Article::paginate(10);   
         return view('articles.index', compact('articles') );
     }
 
@@ -39,29 +41,9 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticleStoreRequest $request)
+    public function store(ArticleStoreRequest $request, ArticleService $articleService)
     {
-        // TODO: we are getting the tags as array. Now we need to store in the
-        // database
-        $path = '/storage/images/noimage.jpeg';
-        if ( $request->has('image') ) {
-            $path = $request->image->store('images', 'public');
-        }
-
-        $article = Article::create($request->all() + [
-            'image_path' => $path
-        ]);
- 
-        // loop through the tags
-        foreach ($request->tags as $tag) {
-            // if the tag is not already in the db, save it.
-            $tagModel = Tag::where('title', $tag)->first();
-            if ( $tagModel === null ) {
-                $tagModel = Tag::create(['title' => $tag]);
-            }
-            // and save the eloquest relationship of article to tag
-            $article->tags()->save($tagModel);
-        }
+        $articleService->createWithTags($request->all());
 
         return redirect()->route('articles.index')->with(
             'message',
@@ -98,13 +80,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ArticleUpdateRequest $request, Article $article)
+    public function update(ArticleUpdateRequest $request, Article $article, ArticleService $articleService)
     {
-        Storage::delete(public_path('storage/' . $article->image_path));
-        $path = $request->image->store('images', 'public');
-        $article->update($request->all() + [
-            'image_path' => $path
-        ]);
+        $articleService->updateWithTags($request, $article);
         return redirect()->route('articles.index')->with(
             'message',
             'The article has been updated successfully.'

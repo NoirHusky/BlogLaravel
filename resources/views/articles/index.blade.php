@@ -19,7 +19,7 @@
                     <div class="card mb-4">
                         <img src="{{ asset('storage/' . $article->image_path) }}" style="height: 200px; object-fit: cover" alt="image">
                         <h1 class="card-header">
-                            {{ $article->title }}
+                            <a href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
                             @auth
                                 <span class="float-end">
                                     <a href="{{ route('articles.edit', $article) }}" class="btn btn-secondary"> Edit </a>
@@ -43,6 +43,11 @@
                 @empty
                     No items found...
                 @endforelse
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    {{ $articles->links() }}
+                </div>
             </div>
         </div>
     </div>

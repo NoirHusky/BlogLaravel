@@ -8,6 +8,7 @@ AppServiceProvider	app/Providers/AppServiceProvider.php	/^class AppServiceProvid
 Article	app/Models/Article.php	/^class Article extends Model$/;"	c
 ArticleController	app/Http/Controllers/ArticleController.php	/^class ArticleController extends Controller$/;"	c
 ArticleResource	app/Http/Resources/ArticleResource.php	/^class ArticleResource extends JsonResource$/;"	c
+ArticleService	app/Services/ArticleService.php	/^class ArticleService {$/;"	c
 ArticleStoreRequest	app/Http/Requests/ArticleStoreRequest.php	/^class ArticleStoreRequest extends FormRequest$/;"	c
 ArticleUpdateRequest	app/Http/Requests/ArticleUpdateRequest.php	/^class ArticleUpdateRequest extends FormRequest$/;"	c
 AuthServiceProvider	app/Providers/AuthServiceProvider.php	/^class AuthServiceProvider extends ServiceProvider$/;"	c
@@ -42,7 +43,8 @@ __construct	app/Http/Controllers/Auth/LoginController.php	/^    public function 
 __construct	app/Http/Controllers/Auth/RegisterController.php	/^    public function __construct()$/;"	f
 __construct	app/Http/Controllers/Auth/VerificationController.php	/^    public function __construct()$/;"	f
 __construct	app/Http/Controllers/HomeController.php	/^    public function __construct()$/;"	f
-articles	app/Http/Controllers/ArticleController.php	/^        $articles = Article::get();   $/;"	v
+article	app/Services/ArticleService.php	/^        $article = Article::create($data + $pathInfo);$/;"	v
+articles	app/Http/Controllers/ArticleController.php	/^        $articles = Article::paginate(10);   $/;"	v
 articles	app/Models/Tag.php	/^    public function articles() {$/;"	f
 authorize	app/Http/Requests/ArticleStoreRequest.php	/^    public function authorize()$/;"	f
 authorize	app/Http/Requests/ArticleUpdateRequest.php	/^    public function authorize()$/;"	f
@@ -57,6 +59,7 @@ configureRateLimiting	app/Providers/RouteServiceProvider.php	/^    protected fun
 create	app/Http/Controllers/ArticleController.php	/^    public function create()$/;"	f
 create	app/Http/Controllers/Auth/RegisterController.php	/^    protected function create(array $data)$/;"	f
 create	app/Http/Controllers/TagController.php	/^    public function create()$/;"	f
+createWithTags	app/Services/ArticleService.php	/^    public function createWithTags($data) {$/;"	f
 destroy	app/Http/Controllers/ArticleController.php	/^    public function destroy(Article $article)$/;"	f
 destroy	app/Http/Controllers/TagController.php	/^    public function destroy(Tag $tag)$/;"	f
 dontFlash	app/Exceptions/Handler.php	/^    protected $dontFlash = [$/;"	v
@@ -83,7 +86,8 @@ message	app/Rules/Tag.php	/^    public function message()$/;"	f
 middleware	app/Http/Kernel.php	/^    protected $middleware = [$/;"	v
 middlewareGroups	app/Http/Kernel.php	/^    protected $middlewareGroups = [$/;"	v
 passes	app/Rules/Tag.php	/^    public function passes($attribute, $value)$/;"	f
-path	app/Http/Controllers/ArticleController.php	/^        $path = $request->image->store('images', 'public');$/;"	v
+pathInfo	app/Services/ArticleService.php	/^            $pathInfo = [$/;"	v
+pathInfo	app/Services/ArticleService.php	/^        $pathInfo = [];$/;"	v
 policies	app/Providers/AuthServiceProvider.php	/^    protected $policies = [$/;"	v
 prepareForValidation	app/Http/Requests/ArticleStoreRequest.php	/^    public function prepareForValidation() {$/;"	f
 proxies	app/Http/Middleware/TrustProxies.php	/^    protected $proxies;$/;"	v
@@ -101,13 +105,15 @@ rules	app/Http/Requests/ArticleUpdateRequest.php	/^    public function rules()$/
 schedule	app/Console/Kernel.php	/^    protected function schedule(Schedule $schedule)$/;"	f
 show	app/Http/Controllers/ArticleController.php	/^    public function show(Article $article)$/;"	f
 show	app/Http/Controllers/TagController.php	/^    public function show(Tag $tag)$/;"	f
-store	app/Http/Controllers/ArticleController.php	/^    public function store(ArticleStoreRequest $request)$/;"	f
+store	app/Http/Controllers/ArticleController.php	/^    public function store(ArticleStoreRequest $request, ArticleService $articleService)$/;"	f
 store	app/Http/Controllers/TagController.php	/^    public function store(Request $request)$/;"	f
-tag	app/Http/Controllers/ArticleController.php	/^                $tag = Tag::save(['title' => $tag]);$/;"	v
-tag	app/Http/Controllers/ArticleController.php	/^            $tag = Tag::where('title', $tag);$/;"	v
+tagModel	app/Services/ArticleService.php	/^                $tagModel = Tag::create(['title' => $tag]);$/;"	v
+tagModel	app/Services/ArticleService.php	/^            $tagModel = Tag::where('title', $tag)->first();$/;"	v
 tags	app/Models/Article.php	/^    public function tags() {$/;"	f
 tags_count	app/Rules/Tag.php	/^            $tags_count = 0;$/;"	v
 toArray	app/Http/Resources/ArticleResource.php	/^    public function toArray($request)$/;"	f
-update	app/Http/Controllers/ArticleController.php	/^    public function update(ArticleUpdateRequest $request, Article $article)$/;"	f
+update	app/Http/Controllers/ArticleController.php	/^    public function update(ArticleUpdateRequest $request, Article $article, ArticleService $articleService)$/;"	f
 update	app/Http/Controllers/TagController.php	/^    public function update(Request $request, Tag $tag)$/;"	f
+updateWithTags	app/Services/ArticleService.php	/^    public function updateWithTags($request, Article $article) {$/;"	f
+val_len	app/Rules/Tag.php	/^        $val_len = count($value);$/;"	v
 validator	app/Http/Controllers/Auth/RegisterController.php	/^    protected function validator(array $data)$/;"	f
