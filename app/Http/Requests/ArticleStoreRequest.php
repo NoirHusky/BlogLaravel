@@ -30,6 +30,7 @@ class ArticleStoreRequest extends FormRequest
             'content'   => 'required',
             'image'     => 'file',
             'tags'      => new Tag,
+            'category_id'  => 'required|numeric',
         ];
     }
 
@@ -37,6 +38,7 @@ class ArticleStoreRequest extends FormRequest
         return $this->merge([
             'tags' => explode(',', $this->tags),
             'slug' => Str::slug($this->title),
+            'category_id' => $this->category,
         ]);
     }
 }

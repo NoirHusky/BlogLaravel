@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'title', 'slug', 'content', 'image_path' ];
+    protected $fillable = [ 'title', 'slug', 'content', 'image_path', 'category_id' ];
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
     }
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }
+

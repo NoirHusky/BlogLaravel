@@ -29,6 +29,13 @@
  
                             <label for="tags">Tags (optional):</label>
                             <input class="form-control" name="tags" id="tags" type="text">
+
+                            <label for="category">Category (optional):</label>
+                            <select class="form-control" name="category" id="category">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                @endforeach
+                            </select>
                                                        
                             <label for="content">Content: </label>
                             <textarea class="form-control" name="content" type="text" placeholder="Body">{{ old('content') }}</textarea>
@@ -53,6 +60,9 @@
             removeItemButton: true,
           }
         );
+        $(document).ready(function() {
+            $('#category').select2();
+        });
     </script>
 
 @endsection

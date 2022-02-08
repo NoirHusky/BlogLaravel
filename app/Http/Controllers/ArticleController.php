@@ -6,10 +6,9 @@ use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
-use App\Models\Tag;
+use App\Models\Category;
 use App\Services\ArticleService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -21,7 +20,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(10);   
+        $articles = Article::with(['category', 'tags'])->paginate(10);   
         return view('articles.index', compact('articles') );
     }
 
@@ -32,7 +31,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $categories = Category::get();
+        return view('articles.create', compact('categories'));
     }
 
     /**
@@ -43,7 +43,7 @@ class ArticleController extends Controller
      */
     public function store(ArticleStoreRequest $request, ArticleService $articleService)
     {
-        $articleService->createWithTags($request->all());
+        $articleService->createWithTags($request);
 
         return redirect()->route('articles.index')->with(
             'message',

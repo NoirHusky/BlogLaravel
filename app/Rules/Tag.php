@@ -16,19 +16,22 @@ class Tag implements Rule
      */
     public function passes($attribute, $value)
     {
-        $val_len = count($value);
-
-        if ( $val_len !== count(array_unique($value)) ) {
-            return false;
-        }
         if ( ! empty($value) ) {
-            $tags_count = 0;
-            foreach ($value as $tag) {
-                if ( preg_match('/[0-9\w]+/', $tag) ) {
-                    $tags_count += 1;
+            if ( is_string($value) ) return true;
+            else if ( is_array($value) ) {
+                $val_len = count($value);
+                if ( $val_len !== count(array_unique($value)) ) {
+                    return false;
                 }
+                $tags_count = 0;
+                foreach ($value as $tag) {
+                    if ( preg_match('/[0-9\w]+/', $tag) ) {
+                        $tags_count += 1;
+                    }
+                }
+                if ( $val_len === $tags_count ) return true;
             }
-            if ( $val_len === $tags_count ) return true;
+
         }
         return false;
     }

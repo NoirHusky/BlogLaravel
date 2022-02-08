@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ArticleUpdateRequest extends FormRequest
@@ -24,9 +25,19 @@ class ArticleUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'     => 'required|max:45',
+            'title'     => 'required|unique:articles|max:45',
             'content'   => 'required',
             'image'     => 'file',
+            'tags'      => new Tag,
+            'category_id'  => 'required|numeric',
         ];
+    }
+
+    public function prepareForValidation() {
+        return $this->merge([
+            'tags' => explode(',', $this->tags),
+            'slug' => Str::slug($this->title),
+            'category_id' => $this->category,
+        ]);
     }
 }

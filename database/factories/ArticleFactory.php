@@ -21,6 +21,7 @@ class ArticleFactory extends Factory
             'title'     => $title,
             'slug'      => $slug,
             'content'   => $this->faker->text(),
+            'category_id' => \App\Models\Category::factory()->create()->id,
             'image_path'=> '/images/' . $image_path,
         ];
     }

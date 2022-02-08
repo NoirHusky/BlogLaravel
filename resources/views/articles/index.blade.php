@@ -17,9 +17,9 @@
             <div class="col-12">
                 @forelse($articles as $article)
                     <div class="card mb-4">
-                        <img src="{{ asset('storage/' . $article->image_path) }}" style="height: 200px; object-fit: cover" alt="image">
+                        <img class="lazyload" data-src="{{ asset('storage/' . $article->image_path) }}" style="height: 200px; object-fit: cover" alt="image">
                         <h1 class="card-header">
-                            <a href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
+                            <a class="link-dark" href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
                             @auth
                                 <span class="float-end">
                                     <a href="{{ route('articles.edit', $article) }}" class="btn btn-secondary"> Edit </a>
@@ -35,9 +35,12 @@
                             {{ $article->content }}
                         </div>
                         <div class="card-footer">
-                            @foreach($article->tags as $tag)
-                                <span class="badge rounded-pill bg-primary">{{ $tag->title }}</span>
-                            @endforeach
+                            <span>Categories: <span class="badge rounded-pill bg-success">{{ $article->category->title }}</span></span>
+                            <span class="float-end">Tags: 
+                                @foreach($article->tags as $tag)
+                                    <span class="badge rounded-pill bg-primary">{{ $tag->title }}</span>
+                                @endforeach
+                            </span>
                         </div>
                     </div>
                 @empty
