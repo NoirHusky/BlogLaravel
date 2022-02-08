@@ -20,6 +20,7 @@ class ArticleService {
         }
         $article->update($request->all() + $pathInfo);
         $tagsId = $this->saveTags($article, $request->input('tags')); 
+        $article->tags()->detach();
         $article->tags()->sync($tagsId);
         DB::commit();
     }
@@ -38,6 +39,7 @@ class ArticleService {
             return;
         }
         $tagsId = $this->saveTags($article, $request->input('tags')); 
+        $article->tags()->detach();
         $article->tags()->sync($tagsId);
         DB::commit();
     }
